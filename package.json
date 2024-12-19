@@ -3,9 +3,43 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy-docs": "ncp src/app/docs dist/app/docs",
+    "build-0000000": "tsc && yarn copy-docs",
+    "build": "tsc",
+    "start": "node ./dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src src/server.ts",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "deploy": "npx vercel --prod",
+    "release": "yarn format && yarn lint:fix && yarn lint && yarn build && yarn deploy"
   },
   "author": "Shamim",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@stylistic/eslint-plugin": "^2.12.1",
+    "@types/cors": "^2.8.17",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/express": "^5.0.0",
+    "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1"
+  }
 }
