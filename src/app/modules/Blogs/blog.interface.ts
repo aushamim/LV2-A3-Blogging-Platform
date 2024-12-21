@@ -12,3 +12,10 @@ export interface BlogUpdateInterface {
   title?   : string;
   content? : string;
 } // prettier-ignore
+
+export interface BlogQueryParamsInterface {
+  search?    : string;
+  sortBy?    : string;
+  sortOrder? : "asc" | "desc";
+  filter?    : string;
+} // prettier-ignore

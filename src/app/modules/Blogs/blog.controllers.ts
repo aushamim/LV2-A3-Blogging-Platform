@@ -5,6 +5,17 @@ import { handleResponse } from "../../utils/handleResponse";
 import { BlogInterface } from "./blog.interface";
 import { BlogDB } from "./blog.services";
 
+const getAll = catchAsync(async (req, res) => {
+  const queryPayload = req.query;
+
+  const response = await BlogDB.getAll(queryPayload);
+  const formattedResponse = response.map((blog) => {
+    return { _id: blog?._id, title: blog?.title, content: blog?.content, author: blog?.author };
+  });
+
+  handleResponse(res, StatusCodes.OK, "Blogs fetched successfully", formattedResponse);
+});
+
 const createOne = catchAsync(async (req, res) => {
   const user = req.user;
   const blog = req.body;
@@ -47,4 +58,4 @@ const deleteOne = catchAsync(async (req, res) => {
   handleResponse(res, StatusCodes.OK, "Blog deleted successfully", undefined);
 });
 
-export const BlogController = { createOne, updateOne, deleteOne };
+export const BlogController = { getAll, createOne, updateOne, deleteOne };

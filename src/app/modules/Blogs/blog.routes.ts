@@ -6,10 +6,13 @@ import { BlogUpdateValidationSchema, BlogValidationSchema } from "./blog.validat
 
 const router = Router();
 
+// Get All Blog
+router.get("/blogs", BlogController.getAll);
+
 // Create Blog
 router.post("/blogs", auth(), validateRequest(BlogValidationSchema), BlogController.createOne);
 
-// Create Blog
+// Update Blog
 router.patch("/blogs/:blogId", auth(), validateRequest(BlogUpdateValidationSchema), BlogController.updateOne);
 
 // Delete Blog
