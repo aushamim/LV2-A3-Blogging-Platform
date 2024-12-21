@@ -12,4 +12,4 @@ const BlogSchema = new Schema<BlogInterface>(
   { timestamps: true },
 ); // prettier-ignore
 
-export const Blog = model<BlogInterface>("Blog", BlogSchema);
+export const BlogModel = model<BlogInterface>("Blog", BlogSchema);

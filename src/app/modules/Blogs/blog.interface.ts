@@ -7,3 +7,8 @@ export interface BlogInterface {
   author       : Types.ObjectId;
   isPublished? : boolean;
 } // prettier-ignore
+
+export interface BlogUpdateInterface {
+  title?   : string;
+  content? : string;
+} // prettier-ignore

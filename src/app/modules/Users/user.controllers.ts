@@ -26,7 +26,7 @@ const login = catchAsync(async (req, res) => {
   }
 
   // token generation
-  const jwtData = { _id: response._id, role: response.role };
+  const jwtData = { userId: response._id, role: response.role };
   const accessToken = jwt.sign(jwtData, config.jwtAccessSecret as string, { expiresIn: config.jwtAccessExpire as string });
   const refreshToken = jwt.sign(jwtData, config.jwtRefreshSecret as string, { expiresIn: config.jwtRefreshExpire as string });
 

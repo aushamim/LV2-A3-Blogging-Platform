@@ -6,13 +6,9 @@ import { UserModel } from "./user.model";
 const getOne = async (payload: UserGetInterface) => {
   const response = await UserModel.findOne(payload);
 
-  if (!response) {
-    throw new AppError(StatusCodes.NOT_FOUND, "User not found");
-  }
+  if (!response) throw new AppError(StatusCodes.NOT_FOUND, "User not found");
 
-  if (response?.isBlocked) {
-    throw new AppError(StatusCodes.FORBIDDEN, "User is blocked");
-  }
+  if (response?.isBlocked) throw new AppError(StatusCodes.FORBIDDEN, "User is blocked");
 
   return response;
 };
