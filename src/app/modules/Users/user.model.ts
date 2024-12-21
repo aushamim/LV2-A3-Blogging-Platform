@@ -1,4 +1,6 @@
+import bcrypt from "bcrypt";
 import { model, Schema } from "mongoose";
+import config from "../../config";
 import { UserInterface } from "./user.interface";
 
 // User Model Schema
@@ -13,6 +15,9 @@ const UserSchema = new Schema<UserInterface>(
   { timestamps: true },
 ); // prettier-ignore
 
-// UserSchema.index({ email: 1 }, { unique: true });
+// Hashing Password before saving to model
+UserSchema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, Number(config.saltRounds));
+});
 
 export const UserModel = model<UserInterface>("User", UserSchema);

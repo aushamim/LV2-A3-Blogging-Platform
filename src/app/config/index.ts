@@ -7,4 +7,5 @@ export default {
   port       : process.env.PORT,
   production : process.env.PRODUCTION === "true",
   dbUrl      : process.env.DB_URL,
+  saltRounds : process.env.SALT_ROUNDS,
 }; // prettier-ignore
