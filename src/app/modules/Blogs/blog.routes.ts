@@ -13,9 +13,12 @@ router.get("/blogs", BlogController.getAll);
 router.post("/blogs", auth(), validateRequest(BlogValidationSchema), BlogController.createOne);
 
 // Update Blog
-router.patch("/blogs/:blogId", auth(), validateRequest(BlogUpdateValidationSchema), BlogController.updateOne);
+router.patch("/blogs/:id", auth(), validateRequest(BlogUpdateValidationSchema), BlogController.updateOne);
 
 // Delete Blog
-router.delete("/blogs/:blogId", auth(), BlogController.deleteOne);
+router.delete("/blogs/:id", auth(), BlogController.deleteOne);
+
+// Delete Blog (ADMIN)
+router.delete("/admin/blogs/:id", auth(), BlogController.deleteOne);
 
 export const BlogRoutes = router;

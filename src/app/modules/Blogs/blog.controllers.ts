@@ -30,7 +30,7 @@ const createOne = catchAsync(async (req, res) => {
 const updateOne = catchAsync(async (req, res) => {
   const user = req.user;
   const blogData = req.body;
-  const blogId = req.params.blogId;
+  const blogId = req.params.id;
 
   const oldBlog = await BlogDB.getOne(blogId);
 
@@ -45,7 +45,7 @@ const updateOne = catchAsync(async (req, res) => {
 
 const deleteOne = catchAsync(async (req, res) => {
   const user = req.user;
-  const blogId = req.params.blogId;
+  const blogId = req.params.id;
 
   const oldBlog = await BlogDB.getOne(blogId);
 
