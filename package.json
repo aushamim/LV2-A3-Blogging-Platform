@@ -5,7 +5,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy-docs": "ncp src/app/docs dist/app/docs",
-    "build-0000000": "tsc && yarn copy-docs",
     "build": "tsc",
     "start": "node ./dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src src/server.ts",
