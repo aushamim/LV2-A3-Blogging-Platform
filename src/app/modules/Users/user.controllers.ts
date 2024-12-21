@@ -1,5 +1,9 @@
+import bcrypt from "bcrypt";
 import { StatusCodes } from "http-status-codes";
+import jwt from "jsonwebtoken";
+import config from "../../config";
 import catchAsync from "../../utils/catchAsync";
+import AppError from "../../utils/errors/AppError";
 import { handleResponse } from "../../utils/handleResponse";
 import { UserDB } from "./user.services";
 
@@ -10,4 +14,25 @@ const register = catchAsync(async (req, res) => {
   handleResponse(res, StatusCodes.CREATED, "User registered successfully", { _id, name, email });
 });
 
-export const UserController = { register };
+const login = catchAsync(async (req, res) => {
+  const user = req.body;
+
+  const payload = { email: user.email };
+  const response = await UserDB.getOne(payload);
+
+  const isPasswordMatched = await bcrypt.compare(user.password, response.password);
+  if (!isPasswordMatched) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid credentials");
+  }
+
+  // token generation
+  const jwtData = { _id: response._id, role: response.role };
+  const accessToken = jwt.sign(jwtData, config.jwtAccessSecret as string, { expiresIn: config.jwtAccessExpire as string });
+  const refreshToken = jwt.sign(jwtData, config.jwtRefreshSecret as string, { expiresIn: config.jwtRefreshExpire as string });
+
+  res.cookie("refreshToken", refreshToken, { secure: config.production, httpOnly: true });
+
+  handleResponse(res, StatusCodes.OK, "User logged in successfully", { token: accessToken });
+});
+
+export const UserController = { register, login };

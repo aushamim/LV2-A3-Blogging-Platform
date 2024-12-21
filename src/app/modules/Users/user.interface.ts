@@ -6,3 +6,13 @@ export interface UserInterface {
   role?      : "admin" | "user";
   isBlocked? : boolean;
 } // prettier-ignore
+
+export interface UserGetInterface {
+  _id?   : string,
+  email? : string;
+} // prettier-ignore
+
+export interface UserLoginInterface {
+  email    : string;
+  password : string;
+} // prettier-ignore

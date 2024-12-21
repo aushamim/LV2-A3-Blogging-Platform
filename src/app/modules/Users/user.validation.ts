@@ -8,3 +8,9 @@ export const UserValidationSchema = z.object({
   role      : z.enum(["admin", "user"]).optional(),
   isBlocked : z.boolean({ invalid_type_error: "Blocked status must be a boolean" }).optional(),
 }); // prettier-ignore
+
+// User login validation schema
+export const UserLoginValidationSchema = z.object({
+  email    : z.string({ invalid_type_error: "Email must be a string" }).email({ message: "Invalid email" }),
+  password : z.string({ invalid_type_error: "Password must be a string" }),
+}); // prettier-ignore
