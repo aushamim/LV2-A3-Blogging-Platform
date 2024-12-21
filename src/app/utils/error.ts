@@ -2,6 +2,8 @@ import { Response } from "express";
 import { Error } from "mongoose";
 import { ZodError } from "zod";
 import config from "../config";
+import AppError from "./errors/AppError";
+import { formatAppError } from "./errors/formatAppError";
 import { formatMongoDuplicateKeyError } from "./errors/formatMongoDuplicateKeyError";
 import { formatMongooseCastError } from "./errors/formatMongooseCastError";
 import { formatMongooseValidationError } from "./errors/formatMongooseValidationError";
@@ -30,6 +32,10 @@ export const handleError = (res: Response, statusCode: number, message: string, 
 
   if (err instanceof Error.CastError) {
     errorData = formatMongooseCastError(err) ?? errorData;
+  }
+
+  if (err instanceof AppError) {
+    errorData = formatAppError(err) ?? errorData;
   }
 
   if (typeof err === "object" && err !== null && "code" in err && err?.code === 11000) {
