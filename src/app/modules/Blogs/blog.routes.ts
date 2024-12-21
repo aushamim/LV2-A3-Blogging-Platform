@@ -7,9 +7,12 @@ import { BlogUpdateValidationSchema, BlogValidationSchema } from "./blog.validat
 const router = Router();
 
 // Create Blog
-router.post("/blogs", auth(), validateRequest(BlogValidationSchema), BlogController.create);
+router.post("/blogs", auth(), validateRequest(BlogValidationSchema), BlogController.createOne);
 
 // Create Blog
-router.patch("/blogs/:blogId", auth(), validateRequest(BlogUpdateValidationSchema), BlogController.update);
+router.patch("/blogs/:blogId", auth(), validateRequest(BlogUpdateValidationSchema), BlogController.updateOne);
+
+// Delete Blog
+router.delete("/blogs/:blogId", auth(), BlogController.deleteOne);
 
 export const BlogRoutes = router;

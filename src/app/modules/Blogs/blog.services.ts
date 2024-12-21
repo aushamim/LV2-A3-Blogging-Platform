@@ -21,4 +21,8 @@ const updateOne = async (id: string, blogData: BlogUpdateInterface) => {
   return getOne(id);
 };
 
-export const BlogDB = { getOne, createOne, updateOne };
+const deleteOne = async (id: string) => {
+  return await BlogModel.findByIdAndDelete({ _id: id });
+};
+
+export const BlogDB = { getOne, createOne, updateOne, deleteOne };

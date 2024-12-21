@@ -5,7 +5,7 @@ import { handleResponse } from "../../utils/handleResponse";
 import { BlogInterface } from "./blog.interface";
 import { BlogDB } from "./blog.services";
 
-const create = catchAsync(async (req, res) => {
+const createOne = catchAsync(async (req, res) => {
   const user = req.user;
   const blog = req.body;
 
@@ -16,7 +16,7 @@ const create = catchAsync(async (req, res) => {
   handleResponse(res, StatusCodes.CREATED, "Blog created successfully", formattedResponse);
 });
 
-const update = catchAsync(async (req, res) => {
+const updateOne = catchAsync(async (req, res) => {
   const user = req.user;
   const blogData = req.body;
   const blogId = req.params.blogId;
@@ -32,4 +32,19 @@ const update = catchAsync(async (req, res) => {
   handleResponse(res, StatusCodes.OK, "Blog updated successfully", formattedResponse);
 });
 
-export const BlogController = { create, update };
+const deleteOne = catchAsync(async (req, res) => {
+  const user = req.user;
+  const blogId = req.params.blogId;
+
+  const oldBlog = await BlogDB.getOne(blogId);
+
+  // Author Check
+  if (user.role === "user" && user?.userId !== oldBlog?.author?._id?.toString()) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "You are not authorized");
+  }
+
+  await BlogDB.deleteOne(blogId);
+  handleResponse(res, StatusCodes.OK, "Blog deleted successfully", undefined);
+});
+
+export const BlogController = { createOne, updateOne, deleteOne };
