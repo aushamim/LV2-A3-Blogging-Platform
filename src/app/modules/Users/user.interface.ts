@@ -7,6 +7,14 @@ export interface UserInterface {
   isBlocked? : boolean;
 } // prettier-ignore
 
+export interface UserPartialInterface {
+  name?      : string;
+  email?     : string;
+  password?  : string;
+  role?      : "admin" | "user";
+  isBlocked? : boolean;
+} // prettier-ignore
+
 export interface UserGetInterface {
   _id?   : string,
   email? : string;

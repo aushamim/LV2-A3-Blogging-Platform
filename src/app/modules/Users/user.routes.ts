@@ -1,4 +1,5 @@
 import { Router } from "express";
+import auth from "../../middlewares/auth";
 import validateRequest from "../../middlewares/validateRequest";
 import { UserController } from "./user.controllers";
 import { UserLoginValidationSchema, UserValidationSchema } from "./user.validation";
@@ -10,5 +11,8 @@ router.post("/auth/register", validateRequest(UserValidationSchema), UserControl
 
 // Login User
 router.post("/auth/login", validateRequest(UserLoginValidationSchema), UserController.login);
+
+// Block User
+router.patch("/admin/users/:userId/block", auth(), UserController.block);
 
 export const UserRoutes = router;

@@ -5,6 +5,7 @@ import config from "../../config";
 import catchAsync from "../../utils/catchAsync";
 import AppError from "../../utils/errors/AppError";
 import { handleResponse } from "../../utils/handleResponse";
+import { UserPartialInterface } from "./user.interface";
 import { UserDB } from "./user.services";
 
 const register = catchAsync(async (req, res) => {
@@ -35,4 +36,16 @@ const login = catchAsync(async (req, res) => {
   handleResponse(res, StatusCodes.OK, "User logged in successfully", { token: accessToken });
 });
 
-export const UserController = { register, login };
+const block = catchAsync(async (req, res) => {
+  const user = req.user;
+  const userId = req.params.userId;
+
+  if (user?.role !== "admin") throw new AppError(StatusCodes.UNAUTHORIZED, "You are not authorized");
+
+  const payload: UserPartialInterface = { isBlocked: true };
+  await UserDB.updateOne(userId, payload);
+
+  handleResponse(res, StatusCodes.OK, "User blocked successfully", undefined);
+});
+
+export const UserController = { register, login, block };

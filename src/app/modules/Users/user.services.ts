@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import AppError from "../../utils/errors/AppError";
-import { UserGetInterface, UserInterface } from "./user.interface";
+import { UserGetInterface, UserInterface, UserPartialInterface } from "./user.interface";
 import { UserModel } from "./user.model";
 
 const getOne = async (payload: UserGetInterface) => {
@@ -17,4 +17,8 @@ const createOne = async (user: UserInterface) => {
   return await UserModel.create(user);
 };
 
-export const UserDB = { getOne, createOne };
+const updateOne = async (id: string, userData: UserPartialInterface) => {
+  return await UserModel.findByIdAndUpdate({ _id: id }, userData);
+};
+
+export const UserDB = { getOne, createOne, updateOne };
